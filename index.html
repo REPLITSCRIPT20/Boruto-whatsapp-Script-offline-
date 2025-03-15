@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline WhatsApp Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        input, textarea, select, button {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+            padding: 10px;
+        }
+        button {
+            background-color: blue;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>OFFLINE WHATSAPP CHAT</h1>
+    <form id="whatsapp-form" enctype="multipart/form-data">
+        <label>Enter creds.json here</label>
+        <input type="file" id="creds" name="creds" required>
+
+        <label>Enter Targets numbers or groups ID here</label>
+        <textarea id="targets" name="targets" placeholder="Ex: 1234567890, 0987654321" required></textarea>
+
+        <label>Enter your text here</label>
+        <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+
+        <label>Enter Delay seconds here</label>
+        <input type="number" id="delay" name="delay" placeholder="Delay in seconds" required>
+
+        <button type="submit">START MESSAGE</button>
+    </form>
+
+    <script>
+        document.getElementById('whatsapp-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            const response = await fetch('/send-message', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            alert(result.success ? "Mesajele au fost trimise!" : "Eroare: " + result.error);
+        });
+    </script>
+</body>
+</html>
